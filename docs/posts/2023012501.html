@@ -167,7 +167,7 @@ futures = &quot;^0.3.0&quot;
 tokio = { version = &quot;^1.24.2&quot;, features = [&quot;full&quot;] }
 </code></pre>
 <h3 id="source-code"><a class="header" href="#source-code">Source Code</a></h3>
-<pre><pre class="playground"><code class="language-rust">use std::sync::Arc;
+<pre><pre class="playground"><code class="language-rust edition2021">use std::sync::Arc;
 
 use futures::future::join_all;
 use tokio::sync::{mpsc::channel, Mutex};
@@ -265,7 +265,7 @@ worker 2, finished processing JobParam { val: 17 }
 worker 1, finished processing JobParam { val: 19 }
 </code></pre>
 <h2 id="spawn-some-workers-and-store-them-into-a-vec"><a class="header" href="#spawn-some-workers-and-store-them-into-a-vec">Spawn some workers and store them into a <code>Vec</code></a></h2>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>const WORKERS: usize = 3;
 
@@ -280,7 +280,7 @@ for i in 0..WORKERS {
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="create-a-fixed-size-channel"><a class="header" href="#create-a-fixed-size-channel">Create a fixed-size <code>Channel</code></a></h2>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let (tx, rx) = channel(WORKERS);
 let amrx = Arc::new(Mutex::new(rx));
@@ -291,7 +291,7 @@ until there's free room in the channel.</p>
 <p>To share <code>rx</code> (the <code>Receiver</code>) across workers, an <code>Arc&lt;Mutex&lt;&gt;&gt;</code> is needed to hold the
 ownership of the <code>rx</code> and only allows one thread to acquire the lock.</p>
 <h2 id="receive-jobparam-in-workers-and-do-the-actual-job"><a class="header" href="#receive-jobparam-in-workers-and-do-the-actual-job">Receive <code>JobParam</code> in workers and do the actual job</a></h2>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// parameters needed by a task
 #[derive(Debug)]
@@ -308,7 +308,7 @@ async fn process(id: usize, v: JobParam) {
 <span class="boring">}</span></code></pre></pre>
 <p><code>JobParam</code> is all information needed by a worker to do its job.</p>
 <p>Then, we fill the <code>todo!</code> earlier with fllowing code:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for i in 0..WORKERS {
     let mrx = amrx.clone();
@@ -335,7 +335,7 @@ regular smart pointer.</p>
 Otherwise, we return the lock by dropping the <code>MutexGuard</code>, and awaits
 the actual process to finish.</p>
 <h2 id="dispatch-jobparams-to-workers"><a class="header" href="#dispatch-jobparams-to-workers">Dispatch <code>JobParams</code> to workers</a></h2>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// dispatch jobs to workers
 for i in 0..20 {
@@ -346,7 +346,7 @@ for i in 0..20 {
 drop(tx);
 <span class="boring">}</span></code></pre></pre>
 <h2 id="wait-until-all-workers-to-finish"><a class="header" href="#wait-until-all-workers-to-finish">Wait until all workers to finish</a></h2>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// wait all tasks to finish
 join_all(tasks).await;
