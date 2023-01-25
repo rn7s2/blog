@@ -1,0 +1,10 @@
+[book]
+authors = ["rn7s2"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Ruiqi Lei"
+
+[output.html]
+cname = "rn7s2.cn"
+git-repository-url = "https://github.com/rn7s2/blog"
