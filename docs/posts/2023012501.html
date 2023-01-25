@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Ruiqi Lei</title>
-        <meta name="robots" content="noindex" />
+        <title>Async Rust: A Naive Work Queue using Channel - Ruiqi Lei</title>
 
 
         <!-- Custom HTML head -->
@@ -13,21 +12,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -37,7 +36,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
@@ -83,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Blog Posts</li><li class="chapter-item expanded "><a href="posts/2023012501.html"><strong aria-hidden="true">1.</strong> Async Rust: A Naive Work Queue using Channel</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Blog Posts</li><li class="chapter-item expanded "><a href="../posts/2023012501.html" class="active"><strong aria-hidden="true">1.</strong> Async Rust: A Naive Work Queue using Channel</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -115,7 +114,7 @@
                     <h1 class="menu-title">Ruiqi Lei</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         <a href="https://github.com/rn7s2/blog" title="Git repository" aria-label="Git repository">
@@ -147,16 +146,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>Ruiqi Lei, undergraduate.</p>
-<p>Interestes include Networking, Programming Languages, Trading Strategies...</p>
-<p>Some of my work:</p>
-<ul>
-<li><a href="https://github.com/rn7s2/bupt-covid-19-auto-report">bupt-covid-19-auto-report</a>, BUPT COVID-19 Auto Report.</li>
-<li><a href="https://github.com/rn7s2/MT4Bridge">MT4Bridge</a>, C++ Wrapper for using .NET MT4 API. (deprecated)</li>
-<li><a href="https://github.com/rn7s2/bilibili-downloader">bilibili-downloader</a>, a console version of <a href="https://github.com/BilibiliVideoDownload/BilibiliVideoDownload">BilibiliVideoDownload</a>.</li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="async-rust-a-naive-work-queue-using-channel"><a class="header" href="#async-rust-a-naive-work-queue-using-channel">Async Rust: A Naive Work Queue using Channel</a></h1>
+                        <h1 id="async-rust-a-naive-work-queue-using-channel"><a class="header" href="#async-rust-a-naive-work-queue-using-channel">Async Rust: A Naive Work Queue using Channel</a></h1>
 <p>When doing I/O intensive work such as web crawling, we might want an async
 work queue to maximize the performance of our crawlers.</p>
 <p>This post demonstrates how to implement a simple (and naive) async work queue
@@ -366,6 +356,9 @@ join_all(tasks).await;
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
 
                         <div style="clear: both"></div>
@@ -374,6 +367,9 @@ join_all(tasks).await;
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
             </nav>
 
@@ -387,23 +383,16 @@ join_all(tasks).await;
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
 
-        <script>
-        window.addEventListener('load', function() {
-            MathJax.Hub.Register.StartupHook('End', function() {
-                window.setTimeout(window.print, 100);
-            });
-        });
-        </script>
 
     </body>
 </html>
