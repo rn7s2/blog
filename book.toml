@@ -5,6 +5,9 @@ multilingual = false
 src = "src"
 title = "Ruiqi Lei"
 
+[build]
+build-dir = "docs"
+
 [output.html]
 cname = "rn7s2.cn"
 git-repository-url = "https://github.com/rn7s2/blog"
