@@ -12,3 +12,6 @@ build-dir = "docs"
 cname = "rn7s2.cn"
 git-repository-url = "https://github.com/rn7s2/blog"
 mathjax-support = true
+
+[rust]
+edition = "2021"
