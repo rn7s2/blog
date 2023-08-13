@@ -34,6 +34,7 @@
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
@@ -71,10 +72,12 @@
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -87,11 +90,33 @@
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
                                 <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
@@ -147,15 +172,14 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="async-rust-a-naive-work-queue-using-channel"><a class="header" href="#async-rust-a-naive-work-queue-using-channel">Async Rust: A Naive Work Queue using Channel</a></h1>
-<p>When doing I/O intensive work such as web crawling, we might want an async
-work queue to maximize the performance of our crawlers.</p>
-<p>This post demonstrates how to implement a simple (and naive) async work queue
-in <code>Rust</code> using <code>Futures</code> and how to use <code>Channel</code> to perform <code>ITC</code>
+<p>When doing I/O intensive work such as web crawling, we might want an async work queue to maximize the performance of our crawlers.</p>
+<p>This post demonstrates how to implement a simple (and naive) async work queue in <code>Rust</code> and how to use <code>Channel</code> to perform <code>ITC</code>
 (Inter-Thread Communication).</p>
 <h2 id="before-you-read-you-should-know"><a class="header" href="#before-you-read-you-should-know">Before you read, you should know...</a></h2>
 <ul>
 <li>basic concepts of <code>Channel</code> or <code>CSP (Communicating Sequential Processes)</code></li>
-<li>basic ideas of asynchronous programming</li>
+<li>basic ideas of <code>asynchronous</code>, <code>parallel</code>, and <code>concurrent</code>.<br />
+note that they are different concepts, and should not be confused with each other.</li>
 <li>basic knowledge of <code>Rust</code></li>
 <li>basic knowledge of <code>cargo</code> to manage dependencies and the build process <br />
 (this post won't demo how to build and run the program)</li>
@@ -163,147 +187,147 @@ in <code>Rust</code> using <code>Futures</code> and how to use <code>Channel</co
 <h2 id="tldr-too-long-didnt-read"><a class="header" href="#tldr-too-long-didnt-read">TL;DR (Too Long; Didn't Read)</a></h2>
 <h3 id="dependencies"><a class="header" href="#dependencies">Dependencies</a></h3>
 <pre><code class="language-toml">[dependencies]
-futures = &quot;^0.3.0&quot;
-tokio = { version = &quot;^1.24.2&quot;, features = [&quot;full&quot;] }
+tokio = { version = &quot;1&quot;, features = [&quot;full&quot;] }
 </code></pre>
 <h3 id="source-code"><a class="header" href="#source-code">Source Code</a></h3>
 <pre><pre class="playground"><code class="language-rust editable edition2021">use std::sync::Arc;
-
-use futures::future::join_all;
-use tokio::sync::{mpsc::channel, Mutex};
+use tokio::{
+    sync::{mpsc::channel, Mutex},
+    task::JoinSet,
+};
 
 const WORKERS: usize = 3;
 
-// parameterss needed by a task
-#[derive(Debug)]
+// parameters needed by a task
 struct JobParam {
     val: usize,
 }
 
 // do workers' jobs
 async fn process(id: usize, v: JobParam) {
-    println!(&quot;worker {}, processing {:?}&quot;, id, v);
-    tokio::time::sleep(tokio::time::Duration::from_secs(id as u64 + 1)).await;
-    println!(&quot;worker {}, finished processing {:?}&quot;, id, v);
+    let sleep_secs = tokio::time::Duration::from_secs(id as u64 + 1);
+    println!(
+        &quot;worker {}, processing #{}, estimated time: {}s&quot;,
+        id,
+        v.val,
+        sleep_secs.as_secs()
+    );
+    tokio::time::sleep(sleep_secs).await;
+    println!(&quot;worker {}, finished processing #{}&quot;, id, v.val);
 }
 
 #[tokio::main]
 async fn main() {
-    let mut tasks = Vec::new();
+    let mut tasks = JoinSet::new();
 
     let (tx, rx) = channel(WORKERS);
-    let amrx = Arc::new(Mutex::new(rx));
+    let rx = Arc::new(Mutex::new(rx));
 
     for i in 0..WORKERS {
-        let mrx = amrx.clone();
-        tasks.push(tokio::spawn(async move {
+        let rx = rx.clone();
+        tasks.spawn(async move {
             loop {
-                let mut guard = mrx.lock().await;
-                if let Some(v) = guard.recv().await {
-                    // drop the mutex lock
-                    drop(guard);
+                // receive a value from the channel
+                let v = {
+                    let mut guard = rx.lock().await;
+                    guard.recv().await
+                    // mutex guard are dropped here
+                };
+                if let Some(v) = v {
                     process(i, v).await;
                 } else {
                     // no more values to receive
                     break;
                 }
             }
-        }));
+        });
     }
 
+    // note: we shoudn't just .expect or .unwrap in production code
+    //       for simplicity, we just panic here if any error occurs
+
     // dispatch jobs to workers
-    for i in 0..20 {
+    for i in 0..10 {
         tx.send(JobParam { val: i })
             .await
             .expect(&quot;send params to workers failed.&quot;);
     }
+    // drop the sender to close the channel
+    // or the workers will be blocked forever
     drop(tx);
 
     // wait all tasks to finish
-    join_all(tasks).await;
+    while let Some(res) = tasks.join_next().await {
+        res.expect(&quot;worker failed.&quot;);
+    }
 }</code></pre></pre>
 <h3 id="output"><a class="header" href="#output">Output</a></h3>
-<pre><code>worker 0, processing JobParam { val: 0 }
-worker 1, processing JobParam { val: 1 }
-worker 2, processing JobParam { val: 2 }
-worker 0, finished processing JobParam { val: 0 }
-worker 0, processing JobParam { val: 3 }
-worker 1, finished processing JobParam { val: 1 }
-worker 1, processing JobParam { val: 4 }
-worker 0, finished processing JobParam { val: 3 }
-worker 0, processing JobParam { val: 5 }
-worker 2, finished processing JobParam { val: 2 }
-worker 2, processing JobParam { val: 6 }
-worker 0, finished processing JobParam { val: 5 }
-worker 0, processing JobParam { val: 7 }
-worker 1, finished processing JobParam { val: 4 }
-worker 1, processing JobParam { val: 8 }
-worker 0, finished processing JobParam { val: 7 }
-worker 0, processing JobParam { val: 9 }
-worker 0, finished processing JobParam { val: 9 }
-worker 0, processing JobParam { val: 10 }
-worker 2, finished processing JobParam { val: 6 }
-worker 2, processing JobParam { val: 11 }
-worker 1, finished processing JobParam { val: 8 }
-worker 1, processing JobParam { val: 12 }
-worker 0, finished processing JobParam { val: 10 }
-worker 0, processing JobParam { val: 13 }
-worker 0, finished processing JobParam { val: 13 }
-worker 0, processing JobParam { val: 14 }
-worker 1, finished processing JobParam { val: 12 }
-worker 1, processing JobParam { val: 15 }
-worker 0, finished processing JobParam { val: 14 }
-worker 0, processing JobParam { val: 16 }
-worker 2, finished processing JobParam { val: 11 }
-worker 2, processing JobParam { val: 17 }
-worker 0, finished processing JobParam { val: 16 }
-worker 0, processing JobParam { val: 18 }
-worker 1, finished processing JobParam { val: 15 }
-worker 1, processing JobParam { val: 19 }
-worker 0, finished processing JobParam { val: 18 }
-worker 2, finished processing JobParam { val: 17 }
-worker 1, finished processing JobParam { val: 19 }
+<pre><code>worker 0, processing #0, estimated time: 1s
+worker 2, processing #1, estimated time: 3s
+worker 1, processing #2, estimated time: 2s
+worker 0, finished processing #0
+worker 0, processing #3, estimated time: 1s
+worker 0, finished processing #3
+worker 1, finished processing #2
+worker 1, processing #5, estimated time: 2s
+worker 0, processing #4, estimated time: 1s
+worker 2, finished processing #1
+worker 2, processing #6, estimated time: 3s
+worker 0, finished processing #4
+worker 0, processing #7, estimated time: 1s
+worker 0, finished processing #7
+worker 1, finished processing #5
+worker 1, processing #9, estimated time: 2s
+worker 0, processing #8, estimated time: 1s
+worker 0, finished processing #8
+worker 2, finished processing #6
+worker 1, finished processing #9
 </code></pre>
-<h2 id="spawn-some-workers-and-store-them-into-a-vec"><a class="header" href="#spawn-some-workers-and-store-them-into-a-vec">Spawn some workers and store them into a <code>Vec</code></a></h2>
+<h2 id="spawn-some-workers-and-store-them-into-a-joinset"><a class="header" href="#spawn-some-workers-and-store-them-into-a-joinset">Spawn some workers and store them into a <code>JoinSet</code></a></h2>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>const WORKERS: usize = 3;
 
-let mut tasks = Vec::new();
+let mut tasks = JoinSet::new();
 
 for i in 0..WORKERS {
-    tasks.push(tokio::spawn(async move {
+    tasks.spawn(async move {
         loop {
             todo!(&quot;receive JobParam and do the actual work&quot;);
         }
-    }));
+    });
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="create-a-fixed-size-channel"><a class="header" href="#create-a-fixed-size-channel">Create a fixed-size <code>Channel</code></a></h2>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let (tx, rx) = channel(WORKERS);
-let amrx = Arc::new(Mutex::new(rx));
+let rx = Arc::new(Mutex::new(rx));
 <span class="boring">}</span></code></pre></pre>
 <p>A channel is a pair of <code>Sender</code> and <code>Receiver</code>.
-The channel can contains up to <code>WORKERS</code> elements, then it will block the sender's thread
-until there's free room in the channel.</p>
-<p>To share <code>rx</code> (the <code>Receiver</code>) across workers, an <code>Arc&lt;Mutex&lt;&gt;&gt;</code> is needed to hold the
-ownership of the <code>rx</code> and only allows one thread to acquire the lock.</p>
+This channel can contains up to <code>WORKERS</code> elements, then it will block the sender's thread until there's free room in the channel.</p>
+<p>Although <code>tokio</code>'s mpsc channel is <code>Send + Sync</code>, it requres <code>&amp;mut self</code> to receive a value, which means it can't be shared across threads directly. We need some kind of interior mutability to achieve this.</p>
+<p>If you wanted to share a <code>Receiver</code> across multiple threads without interior mutability, you could use <code>crossbeam</code> channel instead.</p>
+<p>To share <code>rx</code> (the <code>Receiver</code>) across workers, an <code>Arc&lt;Mutex&lt;&gt;&gt;</code> is needed to hold the ownership of the <code>rx</code> and only allows one thread to acquire the lock simultaneously.</p>
 <h2 id="receive-jobparam-in-workers-and-do-the-actual-job"><a class="header" href="#receive-jobparam-in-workers-and-do-the-actual-job">Receive <code>JobParam</code> in workers and do the actual job</a></h2>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// parameters needed by a task
-#[derive(Debug)]
 struct JobParam {
     val: usize,
 }
 
 // do workers' jobs
 async fn process(id: usize, v: JobParam) {
-    println!(&quot;worker {}, processing {:?}&quot;, id, v);
-    tokio::time::sleep(tokio::time::Duration::from_secs(id as u64 + 1)).await;
-    println!(&quot;worker {}, finished processing {:?}&quot;, id, v);
+    let sleep_secs = tokio::time::Duration::from_secs(id as u64 + 1);
+    println!(
+        &quot;worker {}, processing #{}, estimated time: {}s&quot;,
+        id,
+        v.val,
+        sleep_secs.as_secs()
+    );
+    tokio::time::sleep(sleep_secs).await;
+    println!(&quot;worker {}, finished processing #{}&quot;, id, v.val);
 }
 <span class="boring">}</span></code></pre></pre>
 <p><code>JobParam</code> is all information needed by a worker to do its job.</p>
@@ -311,25 +335,26 @@ async fn process(id: usize, v: JobParam) {
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>for i in 0..WORKERS {
-    let mrx = amrx.clone();
-    tasks.push(tokio::spawn(async move {
+    let rx = rx.clone();
+    tasks.spawn(async move {
         loop {
-            let mut guard = mrx.lock().await;
-            if let Some(v) = guard.recv().await {
-                // drop the mutex lock
-                drop(guard);
+            // receive a value from the channel
+            let v = {
+                let mut guard = rx.lock().await;
+                guard.recv().await
+                // mutex guard are dropped here
+            };
+            if let Some(v) = v {
                 process(i, v).await;
             } else {
                 // no more values to receive
                 break;
             }
         }
-    }));
+    });
 }
 <span class="boring">}</span></code></pre></pre>
-<p>Because of the Rust ownership model, we need to clone the <code>Arc</code> so that
-we can move the reference into the async block. Then we can use it as a
-regular smart pointer.</p>
+<p>We need to clone the <code>Arc</code> so that we can move the reference into the async block. Then we can use it as a regular smart pointer.</p>
 <p>First, acquire the <code>Mutex</code> lock, and receive params from the channel.</p>
 <p>If there's no more values, we should terminate this worker.
 Otherwise, we return the lock by dropping the <code>MutexGuard</code>, and awaits
@@ -343,13 +368,17 @@ for i in 0..20 {
         .await
         .expect(&quot;send params to workers failed.&quot;);
 }
+// drop the sender to close the channel
+// or the workers will be blocked forever
 drop(tx);
 <span class="boring">}</span></code></pre></pre>
 <h2 id="wait-until-all-workers-to-finish"><a class="header" href="#wait-until-all-workers-to-finish">Wait until all workers to finish</a></h2>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>// wait all tasks to finish
-join_all(tasks).await;
+while let Some(res) = tasks.join_next().await {
+    res.expect(&quot;worker failed.&quot;);
+}
 <span class="boring">}</span></code></pre></pre>
 
                     </main>
@@ -399,5 +428,6 @@ join_all(tasks).await;
         <!-- Custom JS scripts -->
 
 
+    </div>
     </body>
 </html>
