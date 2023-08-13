@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Blog Posts</li><li class="chapter-item expanded "><a href="posts/2023012501.html"><strong aria-hidden="true">1.</strong> Async Rust: A Naive Work Queue using Channel</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="upcoming.html">Upcoming Posts</a></li><li class="chapter-item expanded affix "><li class="part-title">Blog Posts</li><li class="chapter-item expanded "><a href="posts/2023012501.html"><strong aria-hidden="true">1.</strong> Async Rust: A Naive Work Queue Using Channel</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -221,7 +221,30 @@ See <a href="https://github.com/XTLS">XTLS</a> and <a href="https://github.com/X
 <p><a href="https://github.com/rn7s2/bilibili-downloader">bilibili-downloader</a>, a console version of <a href="https://github.com/BilibiliVideoDownload/BilibiliVideoDownload">BilibiliVideoDownload</a>.</p>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="async-rust-a-naive-work-queue-using-channel"><a class="header" href="#async-rust-a-naive-work-queue-using-channel">Async Rust: A Naive Work Queue using Channel</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="upcoming-posts"><a class="header" href="#upcoming-posts">Upcoming Posts</a></h1>
+<ul>
+<li>
+<p>Wake-On-LAN From Anywhere Using Openwrt</p>
+<ul>
+<li>etherwake</li>
+<li>rathole (or frpc...)</li>
+<li>a VPS with a public IP</li>
+<li>procd</li>
+<li>Openwrt init scripts (/etc/init.d)</li>
+<li>optional: a socket server to handle requests</li>
+<li>optional: clients for different platforms</li>
+</ul>
+</li>
+<li>
+<p>Stable Diffusion with Intel Arc A770 16G</p>
+<ul>
+<li>not successful yet, the ecosystem is sooooo messy</li>
+<li>bruh:<br />
+<img src="static/imgs/0-diversity-to-the-graphics-card-market.jpg" alt="well, well, well.." /></li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="async-rust-a-naive-work-queue-using-channel"><a class="header" href="#async-rust-a-naive-work-queue-using-channel">Async Rust: A Naive Work Queue Using Channel</a></h1>
 <p>When doing I/O intensive work such as web crawling, we might want an async work queue to maximize the performance of our crawlers.</p>
 <p>This post demonstrates how to implement a simple (and naive) async work queue in <code>Rust</code> and how to use <code>Channel</code> to perform <code>ITC</code>
 (Inter-Thread Communication).</p>
