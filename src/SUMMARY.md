@@ -1,5 +1,6 @@
 # Summary
 
+[告别前端（Bye, Frontend）](bye-front-end.md)
 [Introduction](introduction.md)
 [Upcoming Posts](upcoming.md)
 
