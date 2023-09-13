@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>告别前端（Bye, Frontend） - Ruiqi Lei</title>
+        <title>Introduction - Ruiqi Lei</title>
 
 
         <!-- Custom HTML head -->
@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="bye-front-end.html" class="active">告别前端（Bye, Frontend）</a></li><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="upcoming.html">Upcoming Posts</a></li><li class="chapter-item expanded affix "><li class="part-title">Blog Posts</li><li class="chapter-item expanded "><a href="posts/2023012501.html"><strong aria-hidden="true">1.</strong> Async Rust: A Naive Work Queue Using Channel</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><a href="upcoming.html">Upcoming Posts</a></li><li class="chapter-item expanded affix "><a href="bye-front-end.html">告别前端（Bye, Frontend）</a></li><li class="chapter-item expanded affix "><li class="part-title">Blog Posts</li><li class="chapter-item expanded "><a href="posts/2023012501.html"><strong aria-hidden="true">1.</strong> Async Rust: A Naive Work Queue Using Channel</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -171,30 +171,62 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="告别前端bye-frontend"><a class="header" href="#告别前端bye-frontend">告别前端（Bye, Frontend）</a></h1>
-<h2 id="english-translated-by-poe-ai"><a class="header" href="#english-translated-by-poe-ai"><a href="#english">English (Translated by Poe AI)</a></a></h2>
-<p>也许是明天，或是不久以后，你们会看到这个站点的新版本。</p>
-<p>我想要在这个站点上搞点花活，但是不想触碰前端的工具链。</p>
-<p>问题来了，我既不希望维护一个庞大、复杂而危险的服务器后端（尽管我摆弄它们挺长时间了），又不想编写大量前端代码去重复前人已经做过的辛苦工作。</p>
-<p>怎么办呢？</p>
-<p>我的初步想法是，在 WASM 的帮助下，在浏览器里跑起一个虚拟机，这个虚拟机允许用户自由地探索和交互，甚至可以保存状态，下次继续玩。</p>
-<p>手机用户？不知道，可能会有点麻烦。但是真的有人会在手机上玩这个东西吗？手机用户大概更喜欢刷抖音吧。</p>
-<p>操作系统？我比较喜欢给古老 Windows 版本编程的感觉，就先定下 Windows 98 吧！要是有版权争议，替换成 ReactOS 就好。</p>
-<h2 id="english"><a class="header" href="#english">English</a></h2>
-<p>Perhaps tomorrow, or in the near future, you will see a new version of this website.</p>
-<p>I want to add some fancy features to this website, but I don't want to touch the front-end toolchain.</p>
-<p>Here's the problem: I don't want to maintain a large, complex, and potentially risky server backend (even though I've tinkered with them for quite some time), and I don't want to write a lot of front-end code to duplicate the hard work that others have already done.</p>
-<p>What can I do?</p>
-<p>My initial idea is to run a virtual machine in the browser with the help of WASM. This virtual machine would allow users to freely explore and interact with it, and they could even save their state and continue playing next time.</p>
-<p>What about mobile users? I'm not sure, it might be a bit tricky. But do people really want to play with this thing on their phones? Mobile users probably prefer scrolling through TikTok.</p>
-<p>As for the operating system, I like the feeling of programming for older versions of Windows, so let's go with Windows 98 for now! If there are any copyright issues, we can switch to ReactOS instead.</p>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>Ruiqi Lei, a student in BUPT, majoring in CS.</p>
+<p>Interested in: FFI, Networking, Programming Languages, Trading Strategies...</p>
+<h2 id="projects-by-category"><a class="header" href="#projects-by-category">Projects (by category)</a></h2>
+<h3 id="ffis-language-bindings"><a class="header" href="#ffis-language-bindings">FFIs (Language Bindings)</a></h3>
+<ul>
+<li><code>ctp-rs</code>, a Rust FFI binding for CTP. (proprietary)<br />
+Note: CTP is the most commonly used API for Chinese Futures Market.</li>
+<li><a href="https://github.com/rn7s2/s7-sys">s7-sys</a>, a Rust FFI binding for <a href="https://ccrma.stanford.edu/software/snd/snd/s7.html">s7</a> Scheme interpreter.</li>
+<li><a href="https://github.com/rn7s2/MT4Bridge">MT4Bridge</a>, C++ Wrapper for using .NET MT4 API. (deprecated)</li>
+</ul>
+<h3 id="configurations"><a class="header" href="#configurations">Configurations</a></h3>
+<ul>
+<li><a href="https://github.com/rn7s2/emacs-config">emacs-config</a>, my emacs configuration for Common Lisp.</li>
+<li><a href="https://github.com/rn7s2/helix-conf">helix-conf</a>, my <a href="https://helix-editor.com/">Helix</a> configuration. (depreacted)</li>
+</ul>
+<h3 id="databases"><a class="header" href="#databases">Databases</a></h3>
+<ul>
+<li><a href="https://github.com/rn7s2/TimeSeqX.NaiveKV/blob/main/src/TimeSeqX/NaiveKV/NaiveKV.java">NaiveKV</a>, a naive key-value single file database written in Java, inspired by LSM Tree.</li>
+<li><a href="https://github.com/vnpy/vnpy_mysql">vnpy_mysql</a>, MySQL interface for <a href="https://www.vnpy.com/">vnpy</a>.<br />
+I contributed to this project by adding auto reconnect feature using Mixin.</li>
+</ul>
+<h3 id="groupworks"><a class="header" href="#groupworks">Groupworks</a></h3>
+<ul>
+<li><a href="https://github.com/rn7s2/bupt-scs-dns-relay">bupt-scs-dns-relay</a>, a POSIX compatible DNS relay multithreaded server.</li>
+<li><a href="https://github.com/rn7s2/AutoBus">AutoBus</a> A naive bus dispatching game written in wxWidgets &amp; <code>C++</code>.</li>
+</ul>
+<h3 id="interpreters--compilers"><a class="header" href="#interpreters--compilers">Interpreters &amp; Compilers</a></h3>
+<ul>
+<li><a href="https://github.com/rn7s2/RacketScheme">RacketScheme</a>, a naive Scheme interpreter written in Racket.</li>
+<li><a href="https://github.com/rn7s2/RustScheme">RustScheme</a>, a naive Scheme interpreter written in Rust.</li>
+</ul>
+<h3 id="misc"><a class="header" href="#misc">Misc</a></h3>
+<ul>
+<li>
+<p><a href="https://github.com/rn7s2/Xray-Setup-PowerShell">Xray-Setup-PowerShell</a>, Xray proxy server setup PowerShell on Linux.<br />
+It uses <code>VLESS-XTLS-uTLS-REALITY</code>, which is very fast and secure.<br />
+See <a href="https://github.com/XTLS">XTLS</a> and <a href="https://github.com/XTLS/REALITY">REALITY</a> for more information about this powerful protocol.</p>
+</li>
+<li>
+<p><a href="https://github.com/rn7s2/rsync-win">rsync-win</a>, <code>rsync</code> for Windows.</p>
+</li>
+<li>
+<p><a href="https://github.com/rn7s2/bupt-covid-19-auto-report">bupt-covid-19-auto-report</a>, BUPT COVID-19 Auto Report. (deprecated)</p>
+</li>
+<li>
+<p><a href="https://github.com/rn7s2/bilibili-downloader">bilibili-downloader</a>, a console version of <a href="https://github.com/BilibiliVideoDownload/BilibiliVideoDownload">BilibiliVideoDownload</a>.</p>
+</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
 
-                            <a rel="next" href="introduction.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="upcoming.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -205,13 +237,29 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
 
-                    <a rel="next" href="introduction.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="upcoming.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
