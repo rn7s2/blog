@@ -1,8 +1,10 @@
-# Introduction
+# Hi there, I'm Ruiqi Lei 👋
+
+Glad to see you here!
 
 Ruiqi Lei, a student in BUPT, majoring in CS.
 
-Interested in: FFI, Networking, Programming Languages, Trading Strategies...
+Interested in: Trading, FFI, Networking, Programming Languages...
 
 ## Projects (by category)
 
@@ -13,26 +15,26 @@ Interested in: FFI, Networking, Programming Languages, Trading Strategies...
 - [s7-sys](https://github.com/rn7s2/s7-sys), a Rust FFI binding for [s7](https://ccrma.stanford.edu/software/snd/snd/s7.html) Scheme interpreter.
 - [MT4Bridge](https://github.com/rn7s2/MT4Bridge), C++ Wrapper for using .NET MT4 API. (deprecated)
 
-### Configurations
-
-- [emacs-config](https://github.com/rn7s2/emacs-config), my emacs configuration for Common Lisp.
-- [helix-conf](https://github.com/rn7s2/helix-conf), my [Helix](https://helix-editor.com/) configuration. (depreacted)
-
 ### Databases
 
-- [NaiveKV](https://github.com/rn7s2/TimeSeqX.NaiveKV/blob/main/src/TimeSeqX/NaiveKV/NaiveKV.java), a naive key-value single file database written in Java, inspired by LSM Tree.
 - [vnpy_mysql](https://github.com/vnpy/vnpy_mysql), MySQL interface for [vnpy](https://www.vnpy.com/).  
   I contributed to this project by adding auto reconnect feature using Mixin.
-
-### Groupworks
-
-- [bupt-scs-dns-relay](https://github.com/rn7s2/bupt-scs-dns-relay), a POSIX compatible DNS relay multithreaded server.
-- [AutoBus](https://github.com/rn7s2/AutoBus) A naive bus dispatching game written in wxWidgets & `C++`.
+- [NaiveKV](https://github.com/rn7s2/TimeSeqX.NaiveKV/blob/main/src/TimeSeqX/NaiveKV/NaiveKV.java), a naive key-value single file database written in Java, inspired by LSM Tree.
 
 ### Interpreters & Compilers
 
 - [RacketScheme](https://github.com/rn7s2/RacketScheme), a naive Scheme interpreter written in Racket.
 - [RustScheme](https://github.com/rn7s2/RustScheme), a naive Scheme interpreter written in Rust.
+
+### Configurations
+
+- [emacs-config](https://github.com/rn7s2/emacs-config), my emacs configuration for Common Lisp.
+- [helix-conf](https://github.com/rn7s2/helix-conf), my [Helix](https://helix-editor.com/) configuration. (depreacted)
+
+### Groupworks
+
+- [bupt-scs-dns-relay](https://github.com/rn7s2/bupt-scs-dns-relay), a POSIX compatible DNS relay multithreaded server.
+- [AutoBus](https://github.com/rn7s2/AutoBus) A naive bus dispatching game written in wxWidgets & `C++`.
 
 ### Misc
 
