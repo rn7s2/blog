@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,10 +7,10 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
         <link rel="icon" href="favicon.svg">
         <link rel="shortcut icon" href="favicon.png">
@@ -24,23 +24,25 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
         <!-- MathJax -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    </head>
-    <body>
-    <div id="body-container">
+
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -62,65 +64,49 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
-            html.classList.remove('no-js')
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            html.classList.add("js");
         </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var html = document.querySelector('html');
             var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
             }
+            sidebar_toggle.checked = sidebar === 'visible';
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html" class="active">Welcome!</a></li></ol>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
-
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
 
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </label>
                         <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
@@ -173,43 +159,16 @@
                     <main>
                         <h1 id="hi-there-im-ruiqi-lei-"><a class="header" href="#hi-there-im-ruiqi-lei-">Hi there, I'm Ruiqi Lei 👋</a></h1>
 <p>Glad to see you here! You can also find me on <a href="https://github.com/rn7s2" target="_blank">GitHub</a>.</p>
-<p>Ruiqi Lei, a student in BUPT, majoring in CS.</p>
-<p>Interested in: Trading, FFI, Networking, Programming Languages...</p>
-<p>Some of my work:</p>
-<h3 id="ffis-language-bindings"><a class="header" href="#ffis-language-bindings">FFIs (Language Bindings)</a></h3>
-<ul>
-<li><strong><code>ctp-rs</code></strong>, a Rust FFI binding for <strong>CTP</strong>. (proprietary)<br />
-<strong>Note: CTP is the most commonly used API for Chinese Futures Market.</strong></li>
-<li><a href="https://github.com/rn7s2/s7-sys">s7-sys</a>, a Rust FFI binding for <a href="https://ccrma.stanford.edu/software/snd/snd/s7.html">s7</a> Scheme interpreter.</li>
-<li><a href="https://github.com/rn7s2/MT4Bridge">MT4Bridge</a>, C++ Wrapper for using .NET MT4 API. (deprecated)</li>
-</ul>
-<h3 id="databases"><a class="header" href="#databases">Databases</a></h3>
-<ul>
-<li><strong><a href="https://github.com/vnpy/vnpy_mysql">vnpy_mysql</a></strong>, MySQL interface for <strong><a href="https://www.vnpy.com/">vnpy</a></strong>.<br />
-I contributed to this project by adding auto reconnect feature using Mixin.</li>
-<li><a href="https://github.com/rn7s2/TimeSeqX.NaiveKV/blob/main/src/TimeSeqX/NaiveKV/NaiveKV.java">NaiveKV</a>, a naive key-value single file database written in Java, inspired by LSM Tree.</li>
-</ul>
-<h3 id="interpreters--compilers"><a class="header" href="#interpreters--compilers">Interpreters &amp; Compilers</a></h3>
-<ul>
-<li><a href="https://github.com/rn7s2/RacketScheme">RacketScheme</a>, a naive Scheme interpreter written in Racket.</li>
-<li><a href="https://github.com/rn7s2/RustScheme">RustScheme</a>, a naive Scheme interpreter written in Rust.</li>
-</ul>
-<h3 id="configurations"><a class="header" href="#configurations">Configurations</a></h3>
-<ul>
-<li><a href="https://github.com/rn7s2/emacs-config">emacs-config</a>, my emacs configuration for Common Lisp.</li>
-<li><a href="https://github.com/rn7s2/helix-conf">helix-conf</a>, my <a href="https://helix-editor.com/">Helix</a> configuration. (depreacted)</li>
-</ul>
-<h3 id="groupworks"><a class="header" href="#groupworks">Groupworks</a></h3>
-<ul>
-<li><a href="https://github.com/rn7s2/bupt-scs-dns-relay">bupt-scs-dns-relay</a>, a POSIX compatible DNS relay multithreaded server.</li>
-<li><a href="https://github.com/rn7s2/AutoBus">AutoBus</a> A naive bus dispatching game written in wxWidgets &amp; <code>C++</code>.</li>
-</ul>
+<p>Ruiqi Lei, a <a href="https://en.wikipedia.org/wiki/Beijing_University_of_Posts_and_Telecommunications" target="_blank">BUPT</a> student (2021-2025), majoring in Computer Science.</p>
+<p>Interested in: Trading, FFI, Networks, Programming Languages...</p>
+<p>Intern at <a href="https://github.com/bytedance">@bytedance</a>, former intern at <a href="https://github.com/microsoft">@microsoft</a>.</p>
+<p>Some of my open source projects may help you:</p>
 <h3 id="misc"><a class="header" href="#misc">Misc</a></h3>
 <ul>
 <li>
 <p><a href="https://github.com/rn7s2/Xray-Setup-PowerShell">Xray-Setup-PowerShell</a>, Xray proxy server setup PowerShell on Linux.<br />
-It uses <code>VLESS-XTLS-uTLS-REALITY</code>, which is very fast and secure.<br />
-See <a href="https://github.com/XTLS">XTLS</a> and <a href="https://github.com/XTLS/REALITY">REALITY</a> for more information about this powerful protocol.</p>
+It uses <code>VLESS-XTLS-uTLS-REALITY</code>, fast and secure.</p>
+<p>See <a href="https://github.com/XTLS">XTLS</a> and <a href="https://github.com/XTLS/REALITY">REALITY</a> for more information about this powerful protocol.</p>
 </li>
 <li>
 <p><a href="https://github.com/rn7s2/rsync-win">rsync-win</a>, <code>rsync</code> for Windows.</p>
@@ -217,9 +176,25 @@ See <a href="https://github.com/XTLS">XTLS</a> and <a href="https://github.com/X
 <li>
 <p><a href="https://github.com/rn7s2/bupt-covid-19-auto-report">bupt-covid-19-auto-report</a>, BUPT COVID-19 Auto Report. (deprecated)</p>
 </li>
-<li>
-<p><a href="https://github.com/rn7s2/bilibili-downloader">bilibili-downloader</a>, a console version of <a href="https://github.com/BilibiliVideoDownload/BilibiliVideoDownload">BilibiliVideoDownload</a>.</p>
-</li>
+</ul>
+<h3 id="ffis-language-bindings"><a class="header" href="#ffis-language-bindings">FFIs (Language Bindings)</a></h3>
+<ul>
+<li><a href="https://github.com/rn7s2/racket-sys">racket-sys</a>, a Rust FFI binding for <a href="https://racket-lang.org/">Racket</a>.</li>
+<li><a href="https://github.com/rn7s2/s7-sys">s7-sys</a>, a Rust FFI binding for <a href="https://ccrma.stanford.edu/software/snd/snd/s7.html">s7 Scheme</a>.</li>
+</ul>
+<h3 id="interpreters--compilers"><a class="header" href="#interpreters--compilers">Interpreters &amp; Compilers</a></h3>
+<ul>
+<li><a href="https://github.com/rn7s2/RacketScheme">RacketScheme</a>, a naive Scheme interpreter written in Racket.</li>
+</ul>
+<h3 id="configurations"><a class="header" href="#configurations">Configurations</a></h3>
+<ul>
+<li><a href="https://github.com/rn7s2/emacs-config">emacs-config</a>, my emacs configuration for Common Lisp.</li>
+<li><a href="https://github.com/rn7s2/helix-conf">helix-conf</a>, my <a href="https://helix-editor.com/">Helix</a> configuration.</li>
+</ul>
+<h3 id="course-projects"><a class="header" href="#course-projects">Course Projects</a></h3>
+<ul>
+<li><a href="https://github.com/rn7s2/bupt-scs-dns-relay">bupt-scs-dns-relay</a>, a POSIX compatible multithreaded DNS relay server.</li>
+<li><a href="https://github.com/rn7s2/AutoBus">AutoBus</a> A naive bus dispatching game written in wxWidgets &amp; <code>C++</code>.</li>
 </ul>
 
                     </main>
@@ -239,22 +214,6 @@ See <a href="https://github.com/XTLS">XTLS</a> and <a href="https://github.com/X
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

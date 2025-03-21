@@ -17,4 +17,4 @@ mathjax-support = true
 editable = true
 
 [rust]
-edition = "2021"
+edition = "2024"
