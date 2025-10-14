@@ -2,10 +2,11 @@
 
 Glad to see you here! You can also find me on <a href="https://github.com/rn7s2" target="_blank">GitHub</a> and <a href="https://www.linkedin.com/in/rl125/" target="_blank">LinkedIn</a>.
 
-Ruiqi Lei, a BSc Computer Science student (2021-2025) at <a href="https://en.wikipedia.org/wiki/Beijing_University_of_Posts_and_Telecommunications" target="_blank">BUPT</a>, Beijing.\
-MSc ACSE (Fall '25) student at <a href="https://www.imperial.ac.uk/" target="_blank">Imperial</a>, London.
+Ruiqi Lei, a:
 
-Former intern at [@bytedance](https://github.com/bytedance), and [@microsoft](https://github.com/microsoft).
+- Former intern at [@bytedance](https://github.com/bytedance), and [@microsoft](https://github.com/microsoft)
+- MSc ACSE (Fall '25) student at <a href="https://www.imperial.ac.uk/" target="_blank">Imperial</a>, London
+- BEng Computer Science student (2021-2025) at <a href="https://en.wikipedia.org/wiki/Beijing_University_of_Posts_and_Telecommunications" target="_blank">BUPT</a>, Beijing
 
 Interested in: Trading, FFI, Networks, Programming Languages...
 
